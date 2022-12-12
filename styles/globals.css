@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 html,
 body {
   padding: 0;
@@ -13,4 +17,30 @@ a {
 
 * {
   box-sizing: border-box;
+}
+
+.outputArea {
+  height: 100%;
+  width: 100%;
+  border: 1px solid #C4C4C4;
+  border-bottom: 2px solid #ced4da;
+  border-radius: 0;
+  background-color: transparent;
+  padding-left: 5px;
+  box-shadow: none;
+  resize: none;
+  font-family: sans-serif;
+  font-size: medium;
+  outline: none;
+  border-radius: 5px;
+  color: dimgrey;
+}
+
+.form-section-input {
+  border: 1px solid #C4C4C4;
+  border-bottom: 2px solid #ced4da;
+  border-radius: 0;
+  background-color: transparent;
+  padding-left: 5px;
+  box-shadow: none;
 }

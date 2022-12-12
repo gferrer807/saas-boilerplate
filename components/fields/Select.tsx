@@ -17,7 +17,7 @@ export const Select = ({ name, label, options }: SelectProps) => {
     <Field
       name={name}
       render={({ input }) => (
-        <FormControl fullWidth>
+        <FormControl style={{minWidth: 250}}>
           <InputLabel id='demo-simple-select-label'>{label}</InputLabel>
           <MUISelect
             labelId='demo-simple-select-label'

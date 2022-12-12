@@ -6,9 +6,10 @@ interface TextFieldProps extends BaseFieldProps {
   name: string
   label: string
   required?: boolean
+  rows?: number
 }
 
-export const TextField = ({ name, label, required }: TextFieldProps) => {
+export const TextField = ({ name, label, required, rows }: TextFieldProps) => {
   return (
     <Field<string>
       name={name}
@@ -20,6 +21,9 @@ export const TextField = ({ name, label, required }: TextFieldProps) => {
           value={input.value}
           onChange={input.onChange}
           required={required}
+          style={{minWidth: 250}}
+          multiline={rows ? true : false}
+          rows={rows ? rows : 1}
         />
       )}
       validate={(value) => (!value && required ? "required" : undefined)}
