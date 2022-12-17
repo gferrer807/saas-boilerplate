@@ -21,12 +21,12 @@ const AdminPage = ({ user }: { user: User }) => {
     const [activeWindow, setActiveWindow] = useState("Create Job")
 
   return (
-    <AdminDashboardLayout menuOptions={menuOptions} setActiveWindow={setActiveWindow}>
+    <AdminDashboardLayout menuOptions={menuOptions} setActiveWindow={setActiveWindow} user={user}>
         <main className={styles.main}>
             <Container >
-              {activeWindow === "Create Job" && <JobForm/>}
+              {activeWindow === "Create Job" && <JobForm user={user}/>}
               {activeWindow === "Settings" && <Settings user={user}/>}
-              {activeWindow === "My Jobs" && <MyJobs/>}
+              {activeWindow === "My Jobs" && <MyJobs user={user}/>}
             </Container>
         </main>
     </AdminDashboardLayout>

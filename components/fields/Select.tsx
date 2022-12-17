@@ -4,7 +4,6 @@ import {
   MenuItem,
   Select as MUISelect,
 } from "@mui/material"
-import { configOptions } from "final-form"
 import { Field } from "react-final-form"
 import { BaseFieldProps } from "./types"
 

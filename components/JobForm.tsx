@@ -1,7 +1,7 @@
 import React from "react";
 import { Form } from "react-final-form";
 import { TextField } from "./fields/TextField";
-import Button from "@mui/material/Button";
+import Button from "./ui/Button";
 import { Checkbox } from "./fields/Checkbox";
 import { Select } from "./fields/Select";
 import { Box } from "@mui/system";
@@ -10,14 +10,16 @@ import Slider from "./fields/Slider";
 import ChipsInput from "./fields/ChipsInput";
 import { Container } from "@mui/material";
 import { Grid } from "@mui/material";
-import { getJobDescriptionWithPrompt } from "./utils/formUtils";
+import { User } from '@supabase/supabase-js';
+import { getJobDescriptionWithPrompt, saveJobDescription } from "./utils/formUtils";
 
 const JobForm: React.FC<{
-  setJobDescription: Function;
-}> = () => {
+  user: User
+}> = ({ user }) => {
   const [yearsOfExperience, setYearsOfExperience] = React.useState(1);
   const [visa, setVisa] = React.useState(false);
   const [tags, setSkillsTags] = React.useState([]);
+  const [isActive, setIsActive] = React.useState(false);
 
   const [jobDescription, setJobDescription] = React.useState("")
 
@@ -27,28 +29,38 @@ const JobForm: React.FC<{
     }
   }
 
+  const handleSave = async () => {
+    saveJobDescription("Software Engineer", jobDescription, user.id)
+  }
+
+  const onKeyDown = (keyEvent: any) => {
+    if ((keyEvent.charCode || keyEvent.keyCode) === 13) {
+      keyEvent.preventDefault();
+    }
+  }
+  
   const onSubmit = async ({
     jobTitle,
     remotePosition,
     description,
   }: any) => {
-    console.log("Form submitted!!!")
-    console.log('jobTitle', jobTitle)
-    console.log('remotePosition', remotePosition)
-    console.log('description', description)
-    // let data = await getJobDescriptionWithPrompt({
-    //     jobTitle,
-    //     remotePosition,
-    //     description,
-    //     yearsOfExperience,
-    //     visa,
-    //     tags,
-    // })
-    // try {
-    //   setJobDescription(data);
-    // } catch (e) {
-    //   console.log(e);
-    // }
+    setIsActive(true)
+    getJobDescriptionWithPrompt({
+        jobTitle,
+        remotePosition,
+        description,
+        yearsOfExperience,
+        visa,
+        tags,
+    })
+    .then((data: any) => {
+      setJobDescription(data);
+      setIsActive(!isActive);
+    })
+    .catch((e: any) => {
+      setJobDescription("Error loading data");
+      setIsActive(!isActive);
+    })
   };
 
   return (
@@ -59,7 +71,7 @@ const JobForm: React.FC<{
           onSubmit={onSubmit}
           initialValues={{ jobTitle: "" }}
           render={({ handleSubmit, errors }) => (
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} onKeyDown={onKeyDown}>
               <div>
                 <TextField name="jobTitle" label="Job Title" required />
               </div>
@@ -98,9 +110,14 @@ const JobForm: React.FC<{
                 <div>
                   <Checkbox name='Visa' label='Visa Sponsorship' onChangeFunction={setVisa} value={visa}/>
                 </div>
-                <Button variant='contained' type='submit'>
-                  Submit
-                </Button>
+                <span>
+                  <Button type="submit" className="mr-7">
+                    Submit
+                  </Button>
+                  <Button type='button' onClick={handleSave}>
+                    Save
+                  </Button>
+                </span>
               </form>
             )}
           />

@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next'
 const { Configuration, OpenAIApi } = require("openai");
 
 const configuration = new Configuration({
-  apiKey: 'some-key',
+  apiKey: process.env.OPENAI_API_KEY,
 });
 const openai = new OpenAIApi(configuration);
 
@@ -25,7 +25,6 @@ const getLabels = (tags: Array<TagObject>) => {
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
     let reqData = JSON.parse(req.body);
-    console.log('reqData', reqData);
     let tags = getLabels(reqData.tags);
 
     const prompt = `\n

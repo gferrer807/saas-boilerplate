@@ -23,6 +23,13 @@ export interface ProductWithPrice extends Product {
   prices?: Price[];
 }
 
+export interface JobPosting {
+  id: string /* primary key */;
+  user_id: string;
+  jobTitle: string;
+  jobDescription: string;
+}
+
 export interface UserDetails {
   id: string /* primary key */;
   first_name: string;

@@ -1,5 +1,3 @@
-const url = '/api/openai';
-
 export interface FormProps {
     jobTitle: string
     remotePosition: boolean
@@ -19,6 +17,7 @@ export const getJobDescriptionWithPrompt = async ({
     visa,
     tags,
 }: FormProps) => {
+    const url = '/api/openai';
     const reqBody = {
         jobTitle: jobTitle,
         remotePosition: remotePosition,
@@ -36,6 +35,24 @@ export const getJobDescriptionWithPrompt = async ({
     }
     let response = await fetch(url, fetchOptions)
     .then(res => res.text())
-    .catch(err => console.log("Err", err))
+    .catch(err => console.log("asdkgasgkasgkads", err))
+    return response
+}
+
+export const saveJobDescription = async (jobDescription: string, jobTitle: string, user_id: string) => {
+    const url = '/api/save-job-description';
+    let headers = new Headers()
+    const fetchOptions = {
+        "method": "POST",
+        "headers": headers,
+        "body": JSON.stringify({
+            jobTitle: jobTitle,
+            jobDescription: jobDescription,
+            user_id: user_id
+        })
+    }
+    let response = await fetch(url, fetchOptions)
+    .then(res => res.text())
+    .catch(err => console.log("Error", err))
     return response
 }

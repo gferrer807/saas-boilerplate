@@ -1,5 +1,6 @@
 import React from "react";
 import CssBaseline from '@mui/material/CssBaseline';
+import Button from 'components/ui/Button';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
@@ -10,11 +11,12 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import Toolbar from '@mui/material/Toolbar';
+import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import SettingsIcon from '@mui/icons-material/Settings';
 import FolderCopyIcon from '@mui/icons-material/FolderCopy';
 import { styled } from '@mui/material/styles';
 import Logo from './icons/Logo';
+import { useRouter } from 'next/router';
 
 const PREFIX = `AdminDashboardLayout`;
 const classes = {
@@ -54,12 +56,15 @@ type Props = {
   window?: () => Window;
   menuOptions?: Array<string>;
   setActiveWindow: Function;
+  user?: any;
 };
 
 const drawerWidth = 240;
 
-const AdminDashboardLayout = ({ menuOptions, setActiveWindow, children, window }: Props) => {
+const AdminDashboardLayout = ({ menuOptions, setActiveWindow, children, window, user }: Props) => {
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const supabaseClient = useSupabaseClient();
+  const router = useRouter();
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -94,6 +99,12 @@ const AdminDashboardLayout = ({ menuOptions, setActiveWindow, children, window }
           </ListItem>
         ))}
       </List>
+      <div className="text-center fixed bottom-10">
+        <Button onClick={async() => {
+          await supabaseClient.auth.signOut();
+          router.push('/signin');
+        }}>Sign Out</Button>
+      </div>
     </div>
   );
 

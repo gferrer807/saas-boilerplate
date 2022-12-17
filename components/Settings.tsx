@@ -108,24 +108,6 @@ export default function Account({ user }: AccountProps) {
           </div>
         </Card>
         <Card
-          title="Your Name"
-          description="Please enter your full name, or a display name you are comfortable with."
-          footer={<p>Please use 64 characters at maximum.</p>}
-        >
-          <div className="text-xl mt-8 mb-4 font-semibold">
-            {userDetails ? (
-              `${
-                userDetails.full_name ??
-                `${userDetails.first_name} ${userDetails.last_name}`
-              }`
-            ) : (
-              <div className="h-8 mb-6">
-                <LoadingDots />
-              </div>
-            )}
-          </div>
-        </Card>
-        <Card
           title="Your Email"
           description="Please enter the email address you want to use to login."
           footer={<p>We will email you to verify the change.</p>}

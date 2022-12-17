@@ -4,17 +4,22 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import { Button, CardActionArea } from '@mui/material';
 
-export default function ActionAreaCard() {
+interface Props {
+  jobTitle: string;
+  jobDescription: string;
+}
+
+
+export default function ActionAreaCard({jobTitle, jobDescription}: Props) {
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card sx={{ maxWidth: 345, maxHeight: 180 }}>
       <CardActionArea>
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
-            Lizard
+            {jobDescription}
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            Lizards are a widespread group of squamate reptiles, with over 6,000
-            species, ranging across all continents except Antarctica
+            {jobTitle}
           </Typography>
         </CardContent>
       </CardActionArea>
