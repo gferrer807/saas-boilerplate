@@ -12,10 +12,13 @@ import { Container } from "@mui/material";
 import { Grid } from "@mui/material";
 import { User } from '@supabase/supabase-js';
 import { getJobDescriptionWithPrompt, saveJobDescription } from "./utils/formUtils";
+import LoadingBar from 'react-top-loading-bar'
+import { progressMovement } from "./utils/progressUtils";
 
 const JobForm: React.FC<{
   user: User
 }> = ({ user }) => {
+  const [progress, setProgress] = React.useState(0)
   const [yearsOfExperience, setYearsOfExperience] = React.useState(1);
   const [visa, setVisa] = React.useState(false);
   const [tags, setSkillsTags] = React.useState([]);
@@ -45,6 +48,8 @@ const JobForm: React.FC<{
     description,
   }: any) => {
     setIsActive(true)
+    setProgress(15)
+    progressMovement(setProgress)
     getJobDescriptionWithPrompt({
         jobTitle,
         remotePosition,
@@ -54,6 +59,7 @@ const JobForm: React.FC<{
         tags,
     })
     .then((data: any) => {
+      setProgress(100)
       setJobDescription(data);
       setIsActive(!isActive);
     })
@@ -65,6 +71,7 @@ const JobForm: React.FC<{
 
   return (
     <Container className="py-4 px-0">
+      <LoadingBar color="#1875D1" progress={progress} onLoaderFinished={() => setProgress(0)} />
       <Grid container spacing={2} >
           <Grid item xs={6}>
           <Form
