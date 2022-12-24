@@ -6,6 +6,7 @@ export interface FormProps {
     visa: boolean
     tags?: string[]
     location?: string
+    callback?: () => void
 }
 
 export const getJobDescriptionWithPrompt = async ({
